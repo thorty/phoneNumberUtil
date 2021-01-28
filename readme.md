@@ -5,4 +5,4 @@ Module uses google-libphonenumber
 https://npm.runkit.com/google-libphonenumber?t=1611735122413
 
 ## Code
-usage:
+usage: npm run start
