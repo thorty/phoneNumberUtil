@@ -1,20 +1,36 @@
 #!/usr/bin/env node
 
 import { PhoneNumberUtil } from "./phoneNumberUtil";
-import yargs from "yargs"
+import inquirer from "inquirer";
 
 
-const options = yargs
-    .usage( "Usage: -n <phonenumber>" )
-    .option( "n", { alias: "phonenumber", describe: "Phonenumber you want to check", type: "string", demandOption: true } )
-    .argv;
+function askForInput () {
+    inquirer
+        .prompt( [
+            {
+                type: 'input',
+                name: 'number',
+                message: 'phonenumber pls! ',
+                default: "",
+            },
+        ] )
+        .then( answers => {
+            let phoneNumberUtil = new PhoneNumberUtil( <string>answers.number, "DE" );
+            console.info( "Valid Phoneumber: " + phoneNumberUtil.isPhoneNumberValid() );
+            console.warn( "isPhoneNumberMobile: " + phoneNumberUtil.isPhoneNumberMobile() );
+            console.warn( "isPhoneNumberFixedline: " + phoneNumberUtil.isPhoneNumberFixedline() );
+            console.log( "E164: " + phoneNumberUtil.getE164PhoneNumberString() );
+            askForInput();
+        } )
+        .catch( error => {
+            if ( error.isTtyError ) {
+                // Prompt couldn't be rendered in the current environment
+                console.log( error );
+            } else {
+                // Something else went wrong
+                console.log( error );
+            }
+        } );
+}
 
-//const greeting = `Hello, ${ options.name }!`;
-
-const phoneNumberUtil = new PhoneNumberUtil( <string>options.phonenumber, "DE" );
-
-
-console.info( "Valid Phoneumber: " + phoneNumberUtil.isPhoneNumberValid() );
-console.warn( "isPhoneNumberMobile: " + phoneNumberUtil.isPhoneNumberMobile() );
-console.warn( "isPhoneNumberFixedline: " + phoneNumberUtil.isPhoneNumberFixedline() );
-console.log( "E164: " + phoneNumberUtil.getE164PhoneNumberString() );
+askForInput();
