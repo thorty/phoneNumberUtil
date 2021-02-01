@@ -58,6 +58,16 @@ describe('is the given number mobile or fixedline', () => {
         expect(pu.isPhoneNumberFixedline()).to.eql(true);
     });
 });
+describe('foreign number parsed with DE', () => {
+    it('0690696954, french Mobile number is mobile', () => {
+        let pu = new phoneNumberUtil_1.PhoneNumberUtil("0690696954", "FR");
+        expect(pu.isPhoneNumberMobile()).to.eql(true);
+    });
+    it('0690696954, DE is not valid for region', () => {
+        let pu = new phoneNumberUtil_1.PhoneNumberUtil("0690696954", "DE");
+        expect(pu.isPhoneNumberValidForRegion).to.eql(false);
+    });
+});
 describe('get E164 formattet Number from String', () => {
     it('01708122628, DE equals +491708122628', () => {
         let pu = new phoneNumberUtil_1.PhoneNumberUtil("01708122628", "DE");

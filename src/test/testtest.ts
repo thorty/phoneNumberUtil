@@ -48,7 +48,6 @@ describe( 'is the given number mobile or fixedline', () => {
     } );
 } );
 
-
 describe( 'get E164 formattet Number from String', () => {
     it( '01708122628, DE equals +491708122628', () => {
         let pu = new PhoneNumberUtil( "01708122628", "DE" )
@@ -56,4 +55,17 @@ describe( 'get E164 formattet Number from String', () => {
     } );
 
 } )
+
+
+describe( 'foreign mobilenumber parsed with DE comes back as fixedline', () => {
+    it( '0690696954, french Mobile number is mobile', () => {
+        let pu = new PhoneNumberUtil( "0690696954", "DE" )
+        expect( pu.isPhoneNumberMobile() ).to.eql( false );
+    } );
+
+    it( '0690696954, DE is not valid for region', () => {
+        let pu = new PhoneNumberUtil( "0690696954", "DE" )
+        expect( pu.isPhoneNumberValidForRegion ).to.eql( true );
+    } );
+} );
 
