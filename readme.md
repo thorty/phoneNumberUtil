@@ -1,8 +1,10 @@
 ## Description
 Module uses google-libphonenumber
 
-## Example:
-https://npm.runkit.com/google-libphonenumber?t=1611735122413
+## DOC:
+https://www.npmjs.com/package/google-libphonenumber
+
+https://github.com/google/libphonenumber/blob/master/FAQ.md
 
 ## Code
 usage: npm run start
