@@ -8,58 +8,70 @@ const PNF = libphonenumber.PhoneNumberFormat;
 
 export class PhoneNumberUtil {
 
-    phoneNumber: libphonenumber.PhoneNumber = new libphonenumber.PhoneNumber;
+    phoneNumbers: libphonenumber.PhoneNumber[] = new Array();
 
-    constructor ( input: string, languageCode: string[] ) {
-        if ( languageCode.length === 1 && languageCode[0] !== "all" ) {
-            this.phoneNumber = phoneUtil.parse( input, languageCode[0] );
+    constructor ( input: string, languageCodes: string[] ) {
+        if ( !languageCodes.includes( "all" ) ) {
+            for ( let languagecode of languageCodes ) {
+                this.phoneNumbers.push( phoneUtil.parse( input, languagecode ) );
+            }
         }
-        else if ( languageCode[0] === "all" ) {
+        else if ( languageCodes.includes( "all" ) ) {
             // todo use all possible regions eg ES, FR, GB, US,...
-            this.phoneNumber = phoneUtil.parse( input, "DE" );
+            this.phoneNumbers.push( phoneUtil.parse( input, "DE" ) );
         }
     }
 
     isPhoneNumberValid (): boolean {
-        if ( phoneUtil.isPossibleNumber( this.phoneNumber ) && phoneUtil.isValidNumber( this.phoneNumber ) && phoneUtil.getNumberType( this.phoneNumber ) !== -1 ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        let result = false;
+        for ( let phonenumber of this.phoneNumbers )
+            if ( phoneUtil.isPossibleNumber( phonenumber ) && phoneUtil.isValidNumber( phonenumber ) && phoneUtil.getNumberType( phonenumber ) !== -1 ) {
+                return true;
+            }
+        return result;
     }
 
 
     isPhoneNumberMobile (): boolean {
-        if ( phoneUtil.getNumberType( this.phoneNumber ) === 1 ) {
-            return true;
+        let result: boolean = false;
+        for ( let phonenumber of this.phoneNumbers ) {
+            if ( phoneUtil.getNumberType( phonenumber ) === 1 ) {
+                return true;
+
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
 
     isPhoneNumberFixedline (): boolean {
-        if ( phoneUtil.getNumberType( this.phoneNumber ) === 0 ) {
-            return true;
+        let result: boolean = false;
+        for ( let phonenumber of this.phoneNumbers ) {
+            if ( phoneUtil.getNumberType( phonenumber ) === 0 ) {
+                return true;
+
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
 
 
     isPhoneNumberValidForRegion (): boolean {
-        if ( phoneUtil.isPossibleNumber( this.phoneNumber ) && phoneUtil.isValidNumberForRegion( this.phoneNumber ) && phoneUtil.getNumberType( this.phoneNumber ) !== -1 ) {
-            return true;
+        let result: boolean = false;
+        for ( let phonenumber of this.phoneNumbers ) {
+            if ( phoneUtil.isPossibleNumber( phonenumber ) && phoneUtil.isValidNumberForRegion( phonenumber ) && phoneUtil.getNumberType( phonenumber ) !== -1 ) {
+                return true;
+
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
 
-    getE164PhoneNumberString (): string {
-        return phoneUtil.format( this.phoneNumber, PNF.E164 );
+    getE164PhoneNumberString (): string[] {
+        let result: string[] = new Array();
+        for ( let phonenumber of this.phoneNumbers ) {
+            result.push( phoneUtil.format( phonenumber, PNF.E164 ) );
+        }
+        return result;
     }
 
 }

@@ -24,50 +24,59 @@ const libphonenumber = __importStar(require("google-libphonenumber"));
 const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 const PNF = libphonenumber.PhoneNumberFormat;
 class PhoneNumberUtil {
-    constructor(input, languageCode) {
-        this.phoneNumber = new libphonenumber.PhoneNumber;
-        if (languageCode.length === 1 && languageCode[0] !== "all") {
-            this.phoneNumber = phoneUtil.parse(input, languageCode[0]);
+    constructor(input, languageCodes) {
+        this.phoneNumbers = new Array();
+        if (!languageCodes.includes("all")) {
+            for (let languagecode of languageCodes) {
+                this.phoneNumbers.push(phoneUtil.parse(input, languagecode));
+            }
         }
-        else if (languageCode[0] === "all") {
+        else if (languageCodes.includes("all")) {
             // todo use all possible regions eg ES, FR, GB, US,...
-            this.phoneNumber = phoneUtil.parse(input, "DE");
+            this.phoneNumbers.push(phoneUtil.parse(input, "DE"));
         }
     }
     isPhoneNumberValid() {
-        if (phoneUtil.isPossibleNumber(this.phoneNumber) && phoneUtil.isValidNumber(this.phoneNumber) && phoneUtil.getNumberType(this.phoneNumber) !== -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        let result = false;
+        for (let phonenumber of this.phoneNumbers)
+            if (phoneUtil.isPossibleNumber(phonenumber) && phoneUtil.isValidNumber(phonenumber) && phoneUtil.getNumberType(phonenumber) !== -1) {
+                return true;
+            }
+        return result;
     }
     isPhoneNumberMobile() {
-        if (phoneUtil.getNumberType(this.phoneNumber) === 1) {
-            return true;
+        let result = false;
+        for (let phonenumber of this.phoneNumbers) {
+            if (phoneUtil.getNumberType(phonenumber) === 1) {
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
     isPhoneNumberFixedline() {
-        if (phoneUtil.getNumberType(this.phoneNumber) === 0) {
-            return true;
+        let result = false;
+        for (let phonenumber of this.phoneNumbers) {
+            if (phoneUtil.getNumberType(phonenumber) === 0) {
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
     isPhoneNumberValidForRegion() {
-        if (phoneUtil.isPossibleNumber(this.phoneNumber) && phoneUtil.isValidNumberForRegion(this.phoneNumber) && phoneUtil.getNumberType(this.phoneNumber) !== -1) {
-            return true;
+        let result = false;
+        for (let phonenumber of this.phoneNumbers) {
+            if (phoneUtil.isPossibleNumber(phonenumber) && phoneUtil.isValidNumberForRegion(phonenumber) && phoneUtil.getNumberType(phonenumber) !== -1) {
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
     getE164PhoneNumberString() {
-        return phoneUtil.format(this.phoneNumber, PNF.E164);
+        let result = new Array();
+        for (let phonenumber of this.phoneNumbers) {
+            result.push(phoneUtil.format(phonenumber, PNF.E164));
+        }
+        return result;
     }
 }
 exports.PhoneNumberUtil = PhoneNumberUtil;

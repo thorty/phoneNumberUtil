@@ -61,7 +61,7 @@ describe('is the given number mobile or fixedline', () => {
 describe('get E164 formattet Number from String', () => {
     it('01708122628, DE equals +491708122628', () => {
         let pu = new phoneNumberUtil_1.PhoneNumberUtil("01708122628", ["DE"]);
-        expect(pu.getE164PhoneNumberString()).to.eql("+491708122628");
+        expect(pu.getE164PhoneNumberString()[0]).to.eql("+491708122628");
     });
 });
 describe('foreign mobilenumber parsed with DE comes back as fixedline', () => {
