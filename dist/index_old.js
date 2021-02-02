@@ -11,7 +11,7 @@ const options = yargs_1.default
     .option("n", { alias: "phonenumber", describe: "Phonenumber you want to check", type: "string", demandOption: true })
     .argv;
 //const greeting = `Hello, ${ options.name }!`;
-const phoneNumberUtil = new phoneNumberUtil_1.PhoneNumberUtil(options.phonenumber, "DE");
+const phoneNumberUtil = new phoneNumberUtil_1.PhoneNumberUtil(options.phonenumber, ["DE"]);
 console.info("Valid Phoneumber: " + phoneNumberUtil.isPhoneNumberValid());
 console.warn("isPhoneNumberMobile: " + phoneNumberUtil.isPhoneNumberMobile());
 console.warn("isPhoneNumberFixedline: " + phoneNumberUtil.isPhoneNumberFixedline());

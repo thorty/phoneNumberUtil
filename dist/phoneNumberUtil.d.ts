@@ -1,7 +1,7 @@
-import libphonenumber from 'google-libphonenumber';
+import * as libphonenumber from "google-libphonenumber";
 export declare class PhoneNumberUtil {
     phoneNumber: libphonenumber.PhoneNumber;
-    constructor(input: string, languageCode: string);
+    constructor(input: string, languageCode: string[]);
     isPhoneNumberValid(): boolean;
     isPhoneNumberMobile(): boolean;
     isPhoneNumberFixedline(): boolean;

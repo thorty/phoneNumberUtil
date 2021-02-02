@@ -11,7 +11,7 @@ const options = yargs
 
 //const greeting = `Hello, ${ options.name }!`;
 
-const phoneNumberUtil = new PhoneNumberUtil( <string>options.phonenumber, "DE" );
+const phoneNumberUtil = new PhoneNumberUtil( <string>options.phonenumber, ["DE"] );
 
 
 console.info( "Valid Phoneumber: " + phoneNumberUtil.isPhoneNumberValid() );

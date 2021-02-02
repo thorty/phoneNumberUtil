@@ -15,7 +15,7 @@ function askForInput () {
             },
         ] )
         .then( answers => {
-            let phoneNumberUtil = new PhoneNumberUtil( <string>answers.number, "DE" );
+            let phoneNumberUtil = new PhoneNumberUtil( <string>answers.number, ["DE"] );
             console.info( "Valid Phoneumber: " + phoneNumberUtil.isPhoneNumberValid() );
             console.warn( "isPhoneNumberMobile: " + phoneNumberUtil.isPhoneNumberMobile() );
             console.warn( "isPhoneNumberFixedline: " + phoneNumberUtil.isPhoneNumberFixedline() );
