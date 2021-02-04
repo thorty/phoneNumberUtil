@@ -13,7 +13,11 @@ export class PhoneNumberUtil {
     constructor ( input: string, languageCodes: string[] ) {
         if ( !languageCodes.includes( "all" ) ) {
             for ( let languagecode of languageCodes ) {
-                this.phoneNumbers.push( phoneUtil.parse( input, languagecode ) );
+                try {
+                    this.phoneNumbers.push( phoneUtil.parse( input, languagecode ) );
+                } catch ( ex ) {
+
+                }
             }
         }
         else if ( languageCodes.includes( "all" ) ) {
